@@ -1,2 +1,2 @@
 # Calculator
-A Calculator Asignment
+A Calculator Assignment
