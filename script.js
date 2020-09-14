@@ -20,6 +20,7 @@ function operate (operator, a, b) {
 
 function display (text) {
     const result = document.querySelector('#Result');
+    text = text.join('');
     result.textContent = text;
 }
 
@@ -31,11 +32,14 @@ function addNumberEvents () {
     }
     for (let i = 0; i < divs.length; i++) {
         divs[i].addEventListener('click', function () {
-            const text = numbers[i].textContent;
-            display(text);
+            inScreen.push(numbers[i].textContent);
+            display(inScreen);
         })
     }
 
 }
+
+//Create variable that keep tracks of the numbers pressed.
+let inScreen = [];
 
 addNumberEvents();
