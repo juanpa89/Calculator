@@ -1,0 +1,104 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200&family=Overpass:wght@200&display=swap');
+
+
+html, body {
+    height: 100%;
+}
+
+body {
+    background-color: black;
+    display: flex∫;
+}
+
+h1 {
+    color: white;
+    text-align: center;
+}
+
+h1, p {
+    font-family: 'Overpass', sans-serif;
+}
+
+#Calculator {
+    height: 323px;
+    width: 234px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 20vh;
+    display: flex;
+    flex: wrap;
+    flex-wrap: wrap;
+}
+
+#FirstRow, #Screen {
+    height: 60px;;
+    width: 100%;
+}
+
+#Result {
+    text-align: end;
+    height: 100%;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-size: 50px;
+    font-family: 'Overpass', sans-serif;
+    line-height: 120%;
+}
+
+.buttonRow {
+    height: 49px;
+    width: 100%;
+    display: flex;
+}
+
+.button {
+    color: white;
+    height: 100%;
+    width: 58.5px;
+
+}
+
+#Zero {
+    width: 117px;
+}
+
+p {
+    text-align: center;
+    color: white;
+    line-height: 120%;
+}
+
+.bOperator {
+    background-color: rgb(255, 160, 0);
+    outline-style: solid;
+    outline-color: black;
+}
+
+.bNumber {
+    background-color: rgb(140, 140, 140);
+    outline-style: solid;
+    outline-color: black;
+}
+
+.bUtility {
+    background-color: rgb(90, 90, 90);
+    outline-style: solid;
+    outline-color: black;
+}
+
+#Screen {
+    background-color: rgb(50, 50, 50);
+    outline-style: solid;
+    outline-color: black;
+    border-radius: 5px 5px 0px 0px;
+}
+
+#Zero {
+    border-radius: 0px 0px 0px 5px;
+}
+
+#Equal {
+    border-radius: 0px 0px 5px 0px;
+}
+
