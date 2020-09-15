@@ -54,6 +54,10 @@ function addAcEvent () {
     addPointerStyle(AC);
     AC.addEventListener('click', function () {
         inScreen = [];
+        const result = document.querySelector('#Result');
+        result.style.fontSize = `50px`
+        result.style.lineHeight = '120%'
+        result.style.textAlign = 'end';
         display(inScreen);
     });
 }
@@ -65,8 +69,6 @@ function addPointEvent () {
     point.addEventListener('click', function () {
         check = inScreen.some((number) => number === '.');
         if (check === false) {
-            console.log(check);
-            console.log(inScreen);
             inScreen.push('.'); //text.content method returns many spaces and some enter in between.
             display(inScreen);
         }
@@ -76,6 +78,7 @@ function addPointEvent () {
 function addSumEvent () {
     const sum = document.querySelector('#Plus');
     addPointerStyle(sum);
+    
 }
 
 function addPointerStyle (element) {
@@ -88,7 +91,6 @@ function changeColor () {
 
 function adjustFontSize () {
     const result = document.querySelector('#Result');
-    const screen = document.querySelector('#Screen');
     const fontSize = parseInt(window.getComputedStyle(result).getPropertyValue('font-size'));
     const newFontSize = fontSize / 2;
     if (inScreen.length == 8) {
