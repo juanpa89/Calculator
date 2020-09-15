@@ -35,6 +35,7 @@ function addNumberEvents () {
     const divs = document.querySelectorAll('.bNumber');
     const numbers = [];
     for(let i = 0; i < divs.length; i++) {
+        divs[i].style.cursor = 'pointer';
         numbers.push(divs[i].querySelector('.number'))
     }
     for (let i = 0; i < divs.length; i++) {
@@ -61,4 +62,3 @@ function adjustFontSize () {
 let inScreen = [];
 
 addNumberEvents();
-console.log(document.querySelector('#Result').style);
