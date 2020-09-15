@@ -37,25 +37,49 @@ function addNumberEvents () {
     const divs = document.querySelectorAll('.bNumber');
     const numbers = [];
     for(let i = 0; i < divs.length; i++) {
-        divs[i].style.cursor = 'pointer';
+        addPointerStyle(divs[i]);
         numbers.push(divs[i].querySelector('.number'))
     }
     for (let i = 0; i < divs.length; i++) {
         divs[i].addEventListener('click', function () {
             inScreen.push(numbers[i].textContent);
             display(inScreen);
-        })
+        });
     }
 
 }
 
 function addAcEvent () {
     const AC = document.querySelector('#bAC');
-    AC.style.cursor = 'pointer';
+    addPointerStyle(AC);
     AC.addEventListener('click', function () {
         inScreen = [];
         display(inScreen);
-    })
+    });
+}
+
+function addPointEvent () {
+    const point = document.querySelector('#Point');
+    addPointerStyle(point);
+    let check = false;
+    point.addEventListener('click', function () {
+        check = inScreen.some((number) => number === '.');
+        if (check === false) {
+            console.log(check);
+            console.log(inScreen);
+            inScreen.push('.'); //text.content method returns many spaces and some enter in between.
+            display(inScreen);
+        }
+    });
+}
+
+function addSumEvent () {
+    const sum = document.querySelector('#Plus');
+    addPointerStyle(sum);
+}
+
+function addPointerStyle (element) {
+    element.style.cursor = 'pointer';
 }
 
 function changeColor () {
@@ -78,3 +102,5 @@ let inScreen = [];
 
 addNumberEvents();
 addAcEvent();
+addPointEvent();
+addSumEvent();

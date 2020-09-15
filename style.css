@@ -76,7 +76,7 @@ p {
     outline-color: black;
 }
 
-.bNumber {
+.bNumber, .bpoint{
     background-color: rgb(140, 140, 140);
     outline-style: solid;
     outline-color: black;
