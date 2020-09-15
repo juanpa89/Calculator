@@ -3,7 +3,7 @@ function add (a, b) {
 }
 
 function substract (a, b) {
-    return a - b;
+    return `${a - b}`;
 }
 
 function multiply (a, b) {
@@ -16,13 +16,22 @@ function divide (a, b) {
 
 function operate (a, b) {
     if (operator === 'add') {
-        display(add(a, b));
+        display(add(a, b));       //Displays the result 
+        changeOnHold(add(a, b));    // Changes on hold [0] (our first number) to be equal to our operation, so it can be used later.
+        operator = null;          //Changes back operator to null for the logic of the operators events listener
     } else if (operator === 'substract') {
-        substract(a, b);
+        display(substract(a, b));
+        changeOnHold(substract(a, b));
+        operator = null;
     } else if (operator === 'multiply') {
-        multiply(a, b);
+        display(multiply(a, b));
+        changeOnHold(multiply(a, b));
+        operator = null;
+        
     } else if (operator === 'divide') {
-        divide(a, b)
+        display(divide(a, b));
+        changeOnHold(substract(a, b));
+        operator = null;
     }
 }
 
@@ -70,6 +79,7 @@ function addAcEvent () {
     AC.addEventListener('click', function () {
         inScreen = [];
         onHold = [[], []];
+        operator = null;
         const result = document.querySelector('#Result');
         result.style.fontSize = `50px`
         result.style.lineHeight = '120%'
@@ -107,9 +117,62 @@ function addSumEvent () {
     });
 }
 
+function addSubsteactEvent () {
+    const substract = document.querySelector('#Minus');
+    addPointerStyle(substract);
+    substract.addEventListener('click', function () {
+        if (!operator) {
+            eraseWhileOperate();
+            operator = 'substract';
+        } else {
+            getNumberFromHold();
+            eraseWhileOperate();
+            operate(a, b);
+            operator = 'substract';
+        }
+    });
+}
+
+function addMultiplyEvent () {
+    const multiply = document.querySelector('#Times');
+    addPointerStyle(multiply);
+    multiply.addEventListener('click', function () {
+        if (!operator) {
+            eraseWhileOperate();
+            operator = 'multiply';
+        } else {
+            getNumberFromHold();
+            eraseWhileOperate();
+            operate(a, b);
+            operator = 'multiply';
+        }
+    })
+}
+
+function addDividerEvent () {
+    const divider = document.querySelector('#Divider');
+    addPointerStyle(divider);
+    divider.addEventListener('click', function () {
+        if (!operator) {
+            eraseWhileOperate();
+            operator = 'divide';
+        } else {
+            getNumberFromHold();
+            eraseWhileOperate();
+            operate(a, b);
+            operator = 'divide';
+        }
+    })
+}
+
 function getNumberFromHold () {
     a = parseInt(onHold[0].join(''));
     b = parseInt(onHold[1].join(''));
+}
+
+function changeOnHold (number) {
+    onHold[0] = [number];
+    onHold[1] = [];
 }
 
 
@@ -157,3 +220,6 @@ addAcEvent();
 addPointEvent();
 addPointerStyleOperators();
 addSumEvent();
+addSubsteactEvent();
+addMultiplyEvent();
+addDividerEvent();
