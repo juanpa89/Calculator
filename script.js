@@ -1,5 +1,5 @@
 function add (a, b) {
-    return a + b;
+   return `${a + b}`;
 }
 
 function substract (a, b) {
@@ -14,8 +14,16 @@ function divide (a, b) {
     return a / b;
 }
 
-function operate (operator, a, b) {
-    return operator(a, b);
+function operate (a, b) {
+    if (operator === 'add') {
+        display(add(a, b));
+    } else if (operator === 'substract') {
+        substract(a, b);
+    } else if (operator === 'multiply') {
+        multiply(a, b);
+    } else if (operator === 'divide') {
+        divide(a, b)
+    }
 }
 
 function display (text) {
@@ -42,27 +50,26 @@ function addNumberEvents () {
     }
     for (let i = 0; i < divs.length; i++) {
         divs[i].addEventListener('click', function () {
-            if (onHold)
-            inScreen.push(numbers[i].textContent);
-            display(inScreen);
+            if (!operator) {
+                onHold[0].push(numbers[i].textContent);
+                inScreen.push(numbers[i].textContent);
+                display(inScreen);
+            } else {
+                onHold[1].push(numbers[i].textContent);
+                inScreen.push(numbers[i].textContent);
+                display(inScreen);
+            }
         });
     }
 }
 
-function getAnumber (number) {
-    onHold[0] += number;
-}
-
-function getBnumber () {
-    onHold[1] += number;
-}
 
 function addAcEvent () {
     const AC = document.querySelector('#bAC');
     addPointerStyle(AC);
     AC.addEventListener('click', function () {
         inScreen = [];
-        onHold = 0;
+        onHold = [[], []];
         const result = document.querySelector('#Result');
         result.style.fontSize = `50px`
         result.style.lineHeight = '120%'
@@ -88,8 +95,24 @@ function addSumEvent () {
     const sum = document.querySelector('#Plus');
     addPointerStyle(sum);
     sum.addEventListener('click', function () { 
+        if (!operator) {
+            eraseWhileOperate();
+            operator = 'add';
+        } else {
+            getNumberFromHold();
+            eraseWhileOperate();
+            operate(a, b);
+            operator = 'add';
+        }
     });
 }
+
+function getNumberFromHold () {
+    a = parseInt(onHold[0].join(''));
+    b = parseInt(onHold[1].join(''));
+}
+
+
 
 function eraseWhileOperate () {
     display(inScreen);
@@ -121,13 +144,16 @@ function adjustFontSize () {
     }
 }
 
-//Create variable that keep tracks of the numbers pressed.
+//Create variables that keep tracks of the numbers pressed.
 let inScreen = [];
-let onHold = [0, 0];
+let onHold = [[], []];
 let operator;
+let a;
+let b;
 
 
 addNumberEvents();
 addAcEvent();
 addPointEvent();
 addPointerStyleOperators();
+addSumEvent();
