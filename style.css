@@ -67,6 +67,7 @@ p {
     text-align: center;
     color: white;
     line-height: 120%;
+    max-width: 100%
 }
 
 .bOperator {
@@ -92,6 +93,7 @@ p {
     outline-style: solid;
     outline-color: black;
     border-radius: 5px 5px 0px 0px;
+    overflow-wrap: break-word;
 }
 
 #Zero {

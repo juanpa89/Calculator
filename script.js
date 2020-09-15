@@ -19,9 +19,16 @@ function operate (operator, a, b) {
 }
 
 function display (text) {
+    adjustFontSize();
     const result = document.querySelector('#Result');
-    text = text.join('');
-    result.textContent = text;
+    const max = 'MAX'
+    if (inScreen.length >= 15){
+        result.textContent = max;
+        result.style.textAlign = 'center';
+    } else {
+        text = text.join('');
+        result.textContent = text;
+    }
 }
 
 function addNumberEvents () {
@@ -39,7 +46,19 @@ function addNumberEvents () {
 
 }
 
+function adjustFontSize () {
+    const result = document.querySelector('#Result');
+    const screen = document.querySelector('#Screen');
+    const fontSize = parseInt(window.getComputedStyle(result).getPropertyValue('font-size'));
+    const newFontSize = fontSize / 2;
+    if (inScreen.length == 8) {
+        result.style.fontSize = `${newFontSize}px` 
+        result.style.lineHeight = '250%'
+    }
+}
+
 //Create variable that keep tracks of the numbers pressed.
 let inScreen = [];
 
 addNumberEvents();
+console.log(document.querySelector('#Result').style);
