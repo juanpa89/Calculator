@@ -105,15 +105,7 @@ function addSumEvent () {
     const sum = document.querySelector('#Plus');
     addPointerStyle(sum);
     sum.addEventListener('click', function () { 
-        if (!operator) {
-            eraseWhileOperate();
-            operator = 'add';
-        } else {
-            getNumberFromHold();
-            eraseWhileOperate();
-            operate(a, b);
-            operator = 'add';
-        }
+        operateDisplayLogic('add');
     });
 }
 
@@ -121,15 +113,7 @@ function addSubsteactEvent () {
     const substract = document.querySelector('#Minus');
     addPointerStyle(substract);
     substract.addEventListener('click', function () {
-        if (!operator) {
-            eraseWhileOperate();
-            operator = 'substract';
-        } else {
-            getNumberFromHold();
-            eraseWhileOperate();
-            operate(a, b);
-            operator = 'substract';
-        }
+        operateDisplayLogic('substract');
     });
 }
 
@@ -137,15 +121,7 @@ function addMultiplyEvent () {
     const multiply = document.querySelector('#Times');
     addPointerStyle(multiply);
     multiply.addEventListener('click', function () {
-        if (!operator) {
-            eraseWhileOperate();
-            operator = 'multiply';
-        } else {
-            getNumberFromHold();
-            eraseWhileOperate();
-            operate(a, b);
-            operator = 'multiply';
-        }
+        operateDisplayLogic('multiply');
     })
 }
 
@@ -153,16 +129,20 @@ function addDividerEvent () {
     const divider = document.querySelector('#Divider');
     addPointerStyle(divider);
     divider.addEventListener('click', function () {
-        if (!operator) {
-            eraseWhileOperate();
-            operator = 'divide';
-        } else {
-            getNumberFromHold();
-            eraseWhileOperate();
-            operate(a, b);
-            operator = 'divide';
-        }
-    })
+        operateDisplayLogic('divide');
+    });
+}
+
+function operateDisplayLogic (nextOperator) {
+    if (!operator) {
+        eraseWhileOperate();
+        operator = nextOperator;
+    } else {
+        getNumberFromHold();
+        eraseWhileOperate();
+        operate(a, b);
+        operator = nextOperator;
+    }
 }
 
 function getNumberFromHold () {
