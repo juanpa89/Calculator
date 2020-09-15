@@ -42,11 +42,19 @@ function addNumberEvents () {
     }
     for (let i = 0; i < divs.length; i++) {
         divs[i].addEventListener('click', function () {
+            if (onHold)
             inScreen.push(numbers[i].textContent);
             display(inScreen);
         });
     }
+}
 
+function getAnumber (number) {
+    onHold[0] += number;
+}
+
+function getBnumber () {
+    onHold[1] += number;
 }
 
 function addAcEvent () {
@@ -54,6 +62,7 @@ function addAcEvent () {
     addPointerStyle(AC);
     AC.addEventListener('click', function () {
         inScreen = [];
+        onHold = 0;
         const result = document.querySelector('#Result');
         result.style.fontSize = `50px`
         result.style.lineHeight = '120%'
@@ -78,11 +87,24 @@ function addPointEvent () {
 function addSumEvent () {
     const sum = document.querySelector('#Plus');
     addPointerStyle(sum);
-    
+    sum.addEventListener('click', function () { 
+    });
+}
+
+function eraseWhileOperate () {
+    display(inScreen);
+    inScreen = [];
 }
 
 function addPointerStyle (element) {
     element.style.cursor = 'pointer';
+}
+
+function addPointerStyleOperators () {
+    const operator = document.querySelectorAll('.bOperator');
+    for (let i = 0; i < operator.length; i++) {
+        addPointerStyle(operator[i]);
+    }
 }
 
 function changeColor () {
@@ -101,8 +123,11 @@ function adjustFontSize () {
 
 //Create variable that keep tracks of the numbers pressed.
 let inScreen = [];
+let onHold = [0, 0];
+let operator;
+
 
 addNumberEvents();
 addAcEvent();
 addPointEvent();
-addSumEvent();
+addPointerStyleOperators();
