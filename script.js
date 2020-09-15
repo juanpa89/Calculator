@@ -25,6 +25,8 @@ function display (text) {
     if (inScreen.length >= 15){
         result.textContent = max;
         result.style.textAlign = 'center';
+    } else if (inScreen.length == 0) {
+        result.textContent = text;
     } else {
         text = text.join('');
         result.textContent = text;
@@ -47,6 +49,19 @@ function addNumberEvents () {
 
 }
 
+function addAcEvent () {
+    const AC = document.querySelector('#bAC');
+    AC.style.cursor = 'pointer';
+    AC.addEventListener('click', function () {
+        inScreen = [];
+        display(inScreen);
+    })
+}
+
+function changeColor () {
+
+}
+
 function adjustFontSize () {
     const result = document.querySelector('#Result');
     const screen = document.querySelector('#Screen');
@@ -62,3 +77,4 @@ function adjustFontSize () {
 let inScreen = [];
 
 addNumberEvents();
+addAcEvent();
