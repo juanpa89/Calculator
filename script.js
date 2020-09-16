@@ -1,9 +1,9 @@
 function add (a, b) {
-   return `${a + b}`;
+   return a + b;
 }
 
 function substract (a, b) {
-    return `${a - b}`;
+    return a - b;
 }
 
 function multiply (a, b) {
@@ -11,14 +11,17 @@ function multiply (a, b) {
 }
 
 function divide (a, b) {
+    if (a == 0 && b == 0) {
+        return 'Error'
+    }
     return a / b;
 }
 
 function operate (a, b) {
     if (operator === 'add') {
-        display(add(a, b));       //Displays the result 
+        display(add(a, b));         //Displays the result 
         changeOnHold(add(a, b));    // Changes on hold [0] (our first number) to be equal to our operation, so it can be used later.
-        operator = null;          //Changes back operator to null for the logic of the operators events listener
+        operator = null;           //Changes back operator to null for the logic of the operators events listener
     } else if (operator === 'substract') {
         display(substract(a, b));
         changeOnHold(substract(a, b));
@@ -38,11 +41,10 @@ function operate (a, b) {
 function display (text) {
     adjustFontSize();
     const result = document.querySelector('#Result');
-    const max = 'MAX'
     if (inScreen.length >= 15){
-        result.textContent = max;
+        result.textContent = 'MAX';
         result.style.textAlign = 'center';
-    } else if (inScreen.length == 0) {
+    } else if (inScreen.length === 0) { 
         result.textContent = text;
     } else {
         text = text.join('');
@@ -106,6 +108,7 @@ function addSumEvent () {
     addPointerStyle(sum);
     sum.addEventListener('click', function () { 
         operateDisplayLogic('add');
+        
     });
 }
 
@@ -134,14 +137,18 @@ function addDividerEvent () {
 }
 
 function operateDisplayLogic (nextOperator) {
-    if (!operator) {
-        eraseWhileOperate();
-        operator = nextOperator;
+    if (onHold[0].length == 0) {            //This logic prevents the display to show NaN if 2 operator are pressed before any number.
+        return                              //It was showing NaN because I was trying to operate number that did not exist when onHold was empty.
     } else {
-        getNumberFromHold();
-        eraseWhileOperate();
-        operate(a, b);
-        operator = nextOperator;
+        if (!operator) {
+            eraseWhileOperate();
+            operator = nextOperator;
+        } else {
+            getNumberFromHold();
+            eraseWhileOperate();
+            operate(a, b);                 
+            operator = nextOperator;
+        }
     }
 }
 
@@ -152,7 +159,7 @@ function getNumberFromHold () {
 
 function changeOnHold (number) {
     onHold[0] = [number];
-    onHold[1] = [];
+    onHold[1][0] = 0;                    //Changes the first index to 0 in order to get not a NaN display if 2 operator are pressed together.
 }
 
 
