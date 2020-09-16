@@ -154,6 +154,20 @@ function addPlusMinusEvent () {
     })
 }
 
+function addEqualEvent () {
+    const equal = document.querySelector('#Equal');
+    addPointerStyle(equal);
+    equal.addEventListener('click', function () {
+        let rememberOperator = operator;
+        if (onHold[1][0] == 0) {                    //Makes nothing if it's true, to mantain the display if pressed twice in a row.
+            return;
+            
+        } else {
+            operateDisplayLogic(null);
+        }
+    })
+}
+
 function operateDisplayLogic (nextOperator) {
     if (onHold[0].length == 0) {            //This logic prevents the display to show NaN if 2 operator are pressed before any number.
         return                              //It was showing NaN because I was trying to operate number that did not exist when onHold was empty.
@@ -214,7 +228,7 @@ function adjustFontSize () {
 
 //Create variables that keep tracks of the numbers pressed.
 let inScreen = [];
-let onHold = [[], []];
+let onHold = [[], [0]];
 let operator;
 let a;
 let b;
@@ -229,3 +243,4 @@ addSubsteactEvent();
 addMultiplyEvent();
 addDividerEvent();
 addPlusMinusEvent();
+addEqualEvent();
