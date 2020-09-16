@@ -136,6 +136,24 @@ function addDividerEvent () {
     });
 }
 
+function addPlusMinusEvent () {
+    const plusMinus = document.querySelector('#PlusMinus');
+    addPointerStyle(plusMinus);
+    plusMinus.addEventListener('click', function () {
+        if (onHold[1].length == 0) {        //In order to change the number to minus or plus. It gives -1 and makes a multiply operation.         
+            operator = 'multiply';
+            onHold[1][0] = -1;    
+            getNumberFromHold();            //MAkes a and b equal to the hold.
+            eraseWhileOperate();            //Erases the screen. If not called, it will trow an ERROR on the display function for  not being
+            operate(a, b);                  //able to join 2 numbers.
+        } else {
+            a = a * -1;
+            eraseWhileOperate();
+            display(a);
+        }
+    })
+}
+
 function operateDisplayLogic (nextOperator) {
     if (onHold[0].length == 0) {            //This logic prevents the display to show NaN if 2 operator are pressed before any number.
         return                              //It was showing NaN because I was trying to operate number that did not exist when onHold was empty.
@@ -210,3 +228,4 @@ addSumEvent();
 addSubsteactEvent();
 addMultiplyEvent();
 addDividerEvent();
+addPlusMinusEvent();
