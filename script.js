@@ -187,9 +187,14 @@ function addPercentEvent () {                               //It has to give bac
             onHold[1][0] = 100;
             operator = 'divide';
             operateLogic('');
+        } else {
+            // It first operates 
+            operateLogic('divide');
+            //Divides by 100.
+            onHold[1][0] = 100;
+            operateLogic('');
         }
-        //Only works with onHold[0].
-        // If inHold[0] and [1] have valid number. It first operates and then divides by 100.
+        
     })
 }
 
