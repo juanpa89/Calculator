@@ -21,20 +21,20 @@ function operate (a, b) {
     if (operator === 'add') {
         display(add(a, b));         //Displays the result 
         changeOnHold(add(a, b));    // Changes on hold [0] (our first number) to be equal to our operation, so it can be used later.
-        operator = null;           //Changes back operator to null for the logic of the operators events listener
+        operator = '';           //Changes back operator to null for the logic of the operators events listener
     } else if (operator === 'substract') {
         display(substract(a, b));
         changeOnHold(substract(a, b));
-        operator = null;
+        operator = '';
     } else if (operator === 'multiply') {
         display(multiply(a, b));
         changeOnHold(multiply(a, b));
-        operator = null;
+        operator = '';
         
     } else if (operator === 'divide') {
         display(divide(a, b));
         changeOnHold(substract(a, b));
-        operator = null;
+        operator = '';
     }
 }
 
@@ -79,10 +79,11 @@ function addAcEvent () {
     const AC = document.querySelector('#bAC');
     addPointerStyle(AC);
     AC.addEventListener('click', function () {
-        inScreen = [];
-        onHold = [[], []];
+        inScreen = [];                          //Resets these 3 variables to our starting point when the page reloads.
+        onHold[0] = [];
+        onHold[1][0] = 0;
         operator = null;
-        const result = document.querySelector('#Result');
+        const result = document.querySelector('#Result');   //Resets all style variables as they were when the page reloads.
         result.style.fontSize = `50px`
         result.style.lineHeight = '120%'
         result.style.textAlign = 'end';
@@ -107,7 +108,7 @@ function addSumEvent () {
     const sum = document.querySelector('#Plus');
     addPointerStyle(sum);
     sum.addEventListener('click', function () { 
-        operateDisplayLogic('add');
+        operateLogic('add');
         
     });
 }
@@ -116,7 +117,7 @@ function addSubsteactEvent () {
     const substract = document.querySelector('#Minus');
     addPointerStyle(substract);
     substract.addEventListener('click', function () {
-        operateDisplayLogic('substract');
+        operateLogic('substract');
     });
 }
 
@@ -124,7 +125,7 @@ function addMultiplyEvent () {
     const multiply = document.querySelector('#Times');
     addPointerStyle(multiply);
     multiply.addEventListener('click', function () {
-        operateDisplayLogic('multiply');
+        operateLogic('multiply');
     })
 }
 
@@ -132,7 +133,7 @@ function addDividerEvent () {
     const divider = document.querySelector('#Divider');
     addPointerStyle(divider);
     divider.addEventListener('click', function () {
-        operateDisplayLogic('divide');
+        operateLogic('divide');
     });
 }
 
@@ -158,17 +159,33 @@ function addEqualEvent () {
     const equal = document.querySelector('#Equal');
     addPointerStyle(equal);
     equal.addEventListener('click', function () {
-        let rememberOperator = operator;
-        if (onHold[1][0] == 0) {                    //Makes nothing if it's true, to mantain the display if pressed twice in a row.
-            return;
-            
+        const totalHoldIndexOne = onHold[1].reduce((total, currentValue) => total + currentValue); 
+        const rememberOperator = operator;
+        if (totalHoldIndexOne == 0) {                    //Makes nothing if the total of hold[1] is 0, which means that nothing has been pressed so far, 
+            return;                                      //or an operation has just been done, to mantain the display if pressed twice in a row.
         } else {
-            operateDisplayLogic(null);
+            operateLogic('');
         }
     })
 }
 
-function operateDisplayLogic (nextOperator) {
+function addPercentEvent () {                               //It has to give back the number / 100.
+    const percent = document.querySelector('#Percent');
+    addPointerStyle(percent);
+    percent.addEventListener('click', function () {
+        const totalHoldIndexOne = onHold[1].reduce((total, currentValue) => total + currentValue); 
+
+        if (totalHoldIndexOne == 0) {
+            onHold[1][0] = 100;
+            operator = 'divide';
+            operateLogic('');
+        }
+        //Only works with onHold[0].
+        // If inHold[0] and [1] have valid number. It first operates and then divides by 100.
+    })
+}
+
+function operateLogic (nextOperator) {
     if (onHold[0].length == 0) {            //This logic prevents the display to show NaN if 2 operator are pressed before any number.
         return                              //It was showing NaN because I was trying to operate number that did not exist when onHold was empty.
     } else {
@@ -244,3 +261,4 @@ addMultiplyEvent();
 addDividerEvent();
 addPlusMinusEvent();
 addEqualEvent();
+addPercentEvent();
