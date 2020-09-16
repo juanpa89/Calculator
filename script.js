@@ -142,16 +142,23 @@ function addPlusMinusEvent () {
     const plusMinus = document.querySelector('#PlusMinus');
     addPointerStyle(plusMinus);
     plusMinus.addEventListener('click', function () {
-        if (onHold[1].length == 0) {        //In order to change the number to minus or plus. It gives -1 and makes a multiply operation.         
+        const totalHoldIndexOne = onHold[1].reduce((total, currentValue) => total + currentValue);
+        if (totalHoldIndexOne == 0) {        //In order to change the number to minus or plus. It gives -1 and makes a multiply operation.         
             operator = 'multiply';
             onHold[1][0] = -1;    
             getNumberFromHold();            //MAkes a and b equal to the hold.
             eraseWhileOperate();            //Erases the screen. If not called, it will trow an ERROR on the display function for  not being
             operate(a, b);                  //able to join 2 numbers.
         } else {
-            a = a * -1;
+            //operate first,
+            operateLogic('');
+            //change
+            operator = 'multiply';
+            onHold[1][0] = -1;
+            getNumberFromHold();
             eraseWhileOperate();
-            display(a);
+            operate(a, b);
+            
         }
     })
 }
