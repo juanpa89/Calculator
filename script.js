@@ -61,7 +61,7 @@ function addNumberEvents () {
     }
     for (let i = 0; i < divs.length; i++) {
         divs[i].addEventListener('click', function () {
-            if (!operator) {
+            if (operator === '') {
                 onHold[0].push(numbers[i].textContent);
                 inScreen.push(numbers[i].textContent);
                 display(inScreen);
@@ -81,8 +81,9 @@ function addAcEvent () {
     AC.addEventListener('click', function () {
         inScreen = [];                          //Resets these 3 variables to our starting point when the page reloads.
         onHold[0] = [];
+        onHold[1] = [];
         onHold[1][0] = 0;
-        operator = null;
+        operator = '';
         const result = document.querySelector('#Result');   //Resets all style variables as they were when the page reloads.
         result.style.fontSize = `50px`
         result.style.lineHeight = '120%'
@@ -95,7 +96,7 @@ function addPointEvent () {
     const point = document.querySelector('#Point');
     addPointerStyle(point);
     let check = false;
-    point.addEventListener('click', function () {
+    point.addEventListener('click', function () {  //Adds only one point. Checks if . is already in the arrays.
         check = inScreen.some((number) => number === '.');
         if (check === false) {
             inScreen.push('.'); //text.content method returns many spaces and some enter in between.
@@ -189,7 +190,7 @@ function operateLogic (nextOperator) {
     if (onHold[0].length == 0) {            //This logic prevents the display to show NaN if 2 operator are pressed before any number.
         return                              //It was showing NaN because I was trying to operate number that did not exist when onHold was empty.
     } else {
-        if (!operator) {
+        if (operator === '') {
             eraseWhileOperate();
             operator = nextOperator;
         } else {
@@ -208,6 +209,7 @@ function getNumberFromHold () {
 
 function changeOnHold (number) {
     onHold[0] = [number];
+    onHold[1] = [];
     onHold[1][0] = 0;                    //Changes the first index to 0 in order to get not a NaN display if 2 operator are pressed together.
 }
 
@@ -246,7 +248,7 @@ function adjustFontSize () {
 //Create variables that keep tracks of the numbers pressed.
 let inScreen = [];
 let onHold = [[], [0]];
-let operator;
+let operator = '';
 let a;
 let b;
 
