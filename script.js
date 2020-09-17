@@ -262,8 +262,37 @@ function addPointerStyleOperators () {
 }
 
 function changeColor () {
-
+    const rows = document.querySelectorAll('.buttonRow');
+    for (let i = 0; i < rows.length; i ++) {
+        const buttons = rows[i].querySelectorAll('.button');
+        for (let j = 0; j < buttons.length; j++) {
+            //Get RGB
+            const backgroundRGB = window.getComputedStyle(buttons[j]).getPropertyValue('background-color');   
+            //Get only the numbers of the RGB. 
+            const stringNumbers = backgroundRGB.substring(4, backgroundRGB.length -1);
+            const colorNumbers = stringNumbers.split(',');
+            let red = Number(colorNumbers[0]);
+            let green = Number(colorNumbers[1]);
+            let blue = Number(colorNumbers[2]);
+            buttons[j].addEventListener('mousedown', function () {
+                red += 25;
+                green += 25;
+                blue += 25;
+                buttons[j].style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+            })
+            buttons[j].addEventListener('mouseup', function () {
+                red -= 25;
+                green -= 25;
+                blue -= 25;
+                buttons[j].style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+            });
+        }
+        
+    }
+    
 }
+
+
 
 function adjustFontSize () {
     const result = document.querySelector('#Result');
@@ -295,3 +324,4 @@ addDividerEvent();
 addPlusMinusEvent();
 addEqualEvent();
 addPercentEvent();
+changeColor();
