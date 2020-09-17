@@ -158,23 +158,37 @@ function addPlusMinusEvent () {
             getNumberFromHold();
             eraseWhileOperate();
             operate(a, b);
-            
         }
     })
 }
 
 function addEqualEvent () {
     const equal = document.querySelector('#Equal');
+    const AC = document.querySelector('#bAC');
+    
     addPointerStyle(equal);
+    let newOperator;
+    let c;
     equal.addEventListener('click', function () {
-        const totalHoldIndexOne = onHold[1].reduce((total, currentValue) => total + currentValue); 
-        const rememberOperator = operator;
-        if (totalHoldIndexOne == 0) {                    //Makes nothing if the total of hold[1] is 0, which means that nothing has been pressed so far, 
-            return;                                      //or an operation has just been done, to mantain the display if pressed twice in a row.
+        console.log(c);
+        if (!newOperator) {             //This block makes it posssible for the calculator to the same operation repeatidly just pressing equal.
+            newOperator = operator;     // Saves operator to do it multiple times
+            getNumberFromHold();        // gets number for in the tnext line save C and remember it.
+            c = b;
+        }
+        if (c) {                    
+            operateLogic(newOperator, c);
+            console.log(newOperator);
+        } else if (operator === '') { //Makes nothing if operator is empty, which means that nothing has been pressed so far.
+            return;                                      
         } else {
             operateLogic('');
         }
     })
+    AC.addEventListener('click', function () {  // Adds another AC listener in order to erase the local variables new Operator and C.
+        newOperator = "";                           
+        c = null;
+    });
 }
 
 function addPercentEvent () {                               //It has to give back the number / 100.
@@ -182,7 +196,6 @@ function addPercentEvent () {                               //It has to give bac
     addPointerStyle(percent);
     percent.addEventListener('click', function () {
         const totalHoldIndexOne = onHold[1].reduce((total, currentValue) => total + currentValue); 
-
         if (totalHoldIndexOne == 0) {
             onHold[1][0] = 100;
             operator = 'divide';
@@ -194,22 +207,27 @@ function addPercentEvent () {                               //It has to give bac
             onHold[1][0] = 100;
             operateLogic('');
         }
-        
     })
 }
 
-function operateLogic (nextOperator) {
+function operateLogic (nextOperator, c) {
     if (onHold[0].length == 0) {            //This logic prevents the display to show NaN if 2 operator are pressed before any number.
-        return                              //It was showing NaN because I was trying to operate number that did not exist when onHold was empty.
+        return                              //It was showing NaN because It was trying to operate number that did not exist when onHold was empty.
     } else {
         if (operator === '') {
             eraseWhileOperate();
+            operator = nextOperator;
+        }  else if (c) {
+            getNumberFromHold();
+            eraseWhileOperate();
+            operate(a, c);                 
             operator = nextOperator;
         } else {
             getNumberFromHold();
             eraseWhileOperate();
             operate(a, b);                 
             operator = nextOperator;
+            
         }
     }
 }
@@ -263,6 +281,7 @@ let onHold = [[], [0]];
 let operator = '';
 let a;
 let b;
+let c;
 
 
 addNumberEvents();
