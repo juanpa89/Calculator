@@ -126,10 +126,15 @@ function addPointEvent () {
 function addSumEvent () {
     const sum = document.querySelector('#Plus');
     addPointerStyle(sum);
+    console.log(sum.textContent);
     sum.addEventListener('click', function () { 
         operateLogic('add');
-        
     });
+    document.addEventListener('keydown', function (e) {
+        if ('+' === e.key) {  //It uses the string, because if I use textContent it gives back the plus sign with many spaces. And it can't be equal to the event.key.
+            operateLogic('add');
+        }
+    })
 }
 
 function addSubsteactEvent () {
@@ -138,6 +143,11 @@ function addSubsteactEvent () {
     substract.addEventListener('click', function () {
         operateLogic('substract');
     });
+    document.addEventListener('keydown', function (e) {
+        if ('-' === e.key) {  //It uses the string, because if I use textContent it gives back the plus sign with many spaces. And it can't be equal to the event.key.
+            operateLogic('substract');
+        }
+    })
 }
 
 function addMultiplyEvent () {
@@ -145,6 +155,11 @@ function addMultiplyEvent () {
     addPointerStyle(multiply);
     multiply.addEventListener('click', function () {
         operateLogic('multiply');
+    })
+    document.addEventListener('keydown', function (e) {
+        if ('*' === e.key) {  //It uses the string, because if I use textContent it gives back the plus sign with many spaces. And it can't be equal to the event.key.
+            operateLogic('multiply');
+        }
     })
 }
 
@@ -154,6 +169,11 @@ function addDividerEvent () {
     divider.addEventListener('click', function () {
         operateLogic('divide');
     });
+    document.addEventListener('keydown', function (e) {
+        if ('/' === e.key) {  //It uses the string, because if I use textContent it gives back the plus sign with many spaces. And it can't be equal to the event.key.
+            operateLogic('divide');
+        }
+    })
 }
 
 function addPlusMinusEvent () {
@@ -188,7 +208,6 @@ function addEqualEvent () {
     let newOperator;
     let c;
     equal.addEventListener('click', function () {
-        console.log(c);
         if (!newOperator) {             //This block makes it posssible for the calculator to the same operation repeatidly just pressing equal.
             newOperator = operator;     // Saves operator to do it multiple times
             getNumberFromHold();        // gets number for in the tnext line save C and remember it.
@@ -207,6 +226,23 @@ function addEqualEvent () {
         newOperator = "";                           
         c = null;
     });
+    document.addEventListener('keydown', function (e) {
+        if ('Enter' === e.key) {  //It uses the string, because if I use textContent it gives back the plus sign with many spaces. And it can't be equal to the event.key.
+        if (!newOperator) {             //This block makes it posssible for the calculator to the same operation repeatidly just pressing equal.
+            newOperator = operator;     // Saves operator to do it multiple times
+            getNumberFromHold();        // gets number for in the tnext line save C and remember it.
+            c = b;
+        }
+        if (c) {                    
+            operateLogic(newOperator, c);
+            console.log(newOperator);
+        } else if (operator === '') { //Makes nothing if operator is empty, which means that nothing has been pressed so far.
+            return;                                      
+        } else {
+            operateLogic('');
+        }
+        }
+    })
 }
 
 function addPercentEvent () {                               //It has to give back the number / 100.
