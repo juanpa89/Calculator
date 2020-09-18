@@ -57,18 +57,36 @@ function addNumberEvents () {
     const numbers = [];
     for(let i = 0; i < divs.length; i++) {
         addPointerStyle(divs[i]);
-        numbers.push(divs[i].querySelector('.number'))
+        numbers.push(divs[i].querySelector('.number'));
     }
     for (let i = 0; i < divs.length; i++) {
         divs[i].addEventListener('click', function () {
-            if (operator === '') {
-                onHold[0].push(numbers[i].textContent);
-                inScreen.push(numbers[i].textContent);
-                display(inScreen);
-            } else {
-                onHold[1].push(numbers[i].textContent);
-                inScreen.push(numbers[i].textContent);
-                display(inScreen);
+            getNumberValues(numbers[i]);
+        });
+    }
+}
+
+function getNumberValues (number) {
+    if (operator === '') {
+        onHold[0].push(number.textContent);
+        inScreen.push(number.textContent);
+        display(inScreen);
+    } else {
+        onHold[1].push(number.textContent);
+        inScreen.push(number.textContent);
+        display(inScreen);
+    }
+}
+
+function addKeyNumberEvents () {
+    const divs = document.querySelectorAll('.bNumber');
+    const numbers = [];
+    const numberCodes = [];
+    for (let i = 0; i < divs.length; i++) {
+        numbers.push(divs[i].querySelector('.number'));
+        document.addEventListener('keydown', function (e) {
+            if (numbers[i].textContent === e.key) {
+                getNumberValues(numbers[i]);
             }
         });
     }
@@ -293,7 +311,6 @@ function changeColor () {
 }
 
 
-
 function adjustFontSize () {
     const result = document.querySelector('#Result');
     const fontSize = parseInt(window.getComputedStyle(result).getPropertyValue('font-size'));
@@ -325,3 +342,4 @@ addPlusMinusEvent();
 addEqualEvent();
 addPercentEvent();
 changeColor();
+addKeyNumberEvents();
