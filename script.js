@@ -126,7 +126,6 @@ function addPointEvent () {
 function addSumEvent () {
     const sum = document.querySelector('#Plus');
     addPointerStyle(sum);
-    console.log(sum.textContent);
     sum.addEventListener('click', function () { 
         operateLogic('add');
     });
@@ -215,7 +214,6 @@ function addEqualEvent () {
         }
         if (c) {                    
             operateLogic(newOperator, c);
-            console.log(newOperator);
         } else if (operator === '') { //Makes nothing if operator is empty, which means that nothing has been pressed so far.
             return;                                      
         } else {
@@ -227,6 +225,7 @@ function addEqualEvent () {
         c = null;
     });
     document.addEventListener('keydown', function (e) {
+        console.log(c)
         if ('Enter' === e.key) {  //It uses the string, because if I use textContent it gives back the plus sign with many spaces. And it can't be equal to the event.key.
         if (!newOperator) {             //This block makes it posssible for the calculator to the same operation repeatidly just pressing equal.
             newOperator = operator;     // Saves operator to do it multiple times
@@ -235,14 +234,26 @@ function addEqualEvent () {
         }
         if (c) {                    
             operateLogic(newOperator, c);
-            console.log(newOperator);
         } else if (operator === '') { //Makes nothing if operator is empty, which means that nothing has been pressed so far.
             return;                                      
         } else {
             operateLogic('');
         }
         }
-    })
+    });
+    //Make an event per operator, to set the variable c equal to null. So we can have normal operation by the logic thats before this statement.
+    const operators = document.querySelectorAll('.bOperator');
+    for (let i = 0; i < operators.length; i++) {
+        operators[i].addEventListener('click', function () {
+            c = null;
+        })
+    }
+    //Now we'll create the same event with keyboards.
+    document.addEventListener('keydown', function (e) {
+        if ('+' === e.key || '-' === e.key || '*' === e.key || '/' === e.key) {  //Using the string because text.content is returning the operator plus spaces.
+            c = null;
+        }
+    });
 }
 
 function addPercentEvent () {                               //It has to give back the number / 100.
@@ -363,7 +374,6 @@ let onHold = [[], [0]];
 let operator = '';
 let a;
 let b;
-let c;
 
 
 addNumberEvents();
