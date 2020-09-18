@@ -380,6 +380,38 @@ function changeColor () {
                 blue -= 25;
                 buttons[j].style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
             });
+            const text = buttons[j].querySelectorAll('.text');
+
+            for (let k = 0; k < text.length; k++) {
+                const times = document.querySelector('#Times');
+                document.addEventListener('keydown', function (e) {
+                    if (text[k].textContent === e.key) {
+                        console.log(buttons)
+                        red += 25;
+                        green += 25;
+                        blue += 25;
+                        buttons[j].style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+                    } else if ('*' === e.key) {
+                        red += 25;
+                        green += 25;
+                        blue += 25;
+                        times.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+                    } 
+                });
+                document.addEventListener('keyup', function (e) {
+                    if (text[k].textContent === e.key ) {
+                        red -= 25;
+                        green -= 25;
+                        blue -= 25;
+                        buttons[j].style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+                    } else if ('*' === e.key ) {
+                        red -= 25;
+                        green -= 25;
+                        blue -= 25;
+                        times.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+                    } 
+                })
+            }
         }
         
     }
