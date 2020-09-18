@@ -78,10 +78,36 @@ function getNumberValues (number) {
     }
 }
 
+function eraseNumberValues () {
+    let count = 0;
+    document.addEventListener('keydown', function (e) {
+        if (inScreen.length === 0 && 'Backspace' === e.key) {
+            count += 1
+            console.log(count);
+        }
+        if (inScreen.length === 0 && count == 2) {
+            eraseEverything();
+            count = 0;
+        }
+
+        if ('Backspace' === e.key && operator === '') {
+            onHold[0].pop();
+            inScreen.pop();
+            display(inScreen);
+        } else if ('Backspace' === e.key && onHold[1][0] === 0) {
+            eraseEverything();
+            count = 0;
+        } else if ('Backspace' === e.key && operator !== '') {
+            onHold[1].pop();
+            inScreen.pop();
+            display(inScreen);
+        }
+    })
+}
+
 function addKeyNumberEvents () {
     const divs = document.querySelectorAll('.bNumber');
     const numbers = [];
-    const numberCodes = [];
     for (let i = 0; i < divs.length; i++) {
         numbers.push(divs[i].querySelector('.number'));
         document.addEventListener('keydown', function (e) {
@@ -92,12 +118,8 @@ function addKeyNumberEvents () {
     }
 }
 
-
-function addAcEvent () {
-    const AC = document.querySelector('#bAC');
-    addPointerStyle(AC);
-    AC.addEventListener('click', function () {
-        inScreen = [];                          //Resets these 3 variables to our starting point when the page reloads.
+function eraseEverything () {
+    inScreen = [];                          //Resets these 3 variables to our starting point when the page reloads.
         onHold[0] = [];
         onHold[1] = [];
         onHold[1][0] = 0;
@@ -107,6 +129,14 @@ function addAcEvent () {
         result.style.lineHeight = '120%'
         result.style.textAlign = 'end';
         display(inScreen);
+}
+
+
+function addAcEvent () {
+    const AC = document.querySelector('#bAC');
+    addPointerStyle(AC);
+    AC.addEventListener('click', function () {
+        eraseEverything();
     });
 }
 
@@ -225,7 +255,6 @@ function addEqualEvent () {
         c = null;
     });
     document.addEventListener('keydown', function (e) {
-        console.log(c)
         if ('Enter' === e.key) {  //It uses the string, because if I use textContent it gives back the plus sign with many spaces. And it can't be equal to the event.key.
         if (!newOperator) {             //This block makes it posssible for the calculator to the same operation repeatidly just pressing equal.
             newOperator = operator;     // Saves operator to do it multiple times
@@ -360,11 +389,13 @@ function changeColor () {
 
 function adjustFontSize () {
     const result = document.querySelector('#Result');
-    const fontSize = parseInt(window.getComputedStyle(result).getPropertyValue('font-size'));
-    const newFontSize = fontSize / 2;
     if (inScreen.length == 8) {
-        result.style.fontSize = `${newFontSize}px` 
+        result.style.fontSize = `25px` 
         result.style.lineHeight = '250%'
+    } else if (inScreen.length <= 8){
+        result.style.fontSize = `50px`
+        result.style.lineHeight = '120%'
+        result.style.textAlign = 'end';
     }
 }
 
@@ -389,3 +420,4 @@ addEqualEvent();
 addPercentEvent();
 changeColor();
 addKeyNumberEvents();
+eraseNumberValues();
