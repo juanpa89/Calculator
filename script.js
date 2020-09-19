@@ -249,7 +249,7 @@ function addEqualEvent () {
         } else {
             operateLogic('');
         }
-    })
+    });
     AC.addEventListener('click', function () {  // Adds another AC listener in order to erase the local variables new Operator and C.
         newOperator = "";                           
         c = null;
